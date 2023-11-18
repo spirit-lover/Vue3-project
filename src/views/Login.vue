@@ -1,8 +1,23 @@
 <script setup>
-import {getCurrentInstance, reactive, ref} from "vue";
-const {proxy}=getCurrentInstance();
-const formData = reactive({});
+import { getCurrentInstance, reactive, ref } from "vue";
+import md5 from "js-md5";
+import VueCookies from "vue-cookies";
+import router from "@/router/index.js";
 
+const { proxy } = getCurrentInstance();
+//const router=useRouter();
+const formData = reactive({});
+const api = {
+  checkCode: "wqzae",
+  login: "login",
+};
+const checkCodeUrl = ref(api.checkCode);
+
+//更改验证码
+const changeCheckCode = () => {
+  checkCodeUrl.value = api.checkCode + "?" + new Date().getTime();
+};
+//表单相关
 const formDataRef = ref(null);
 const rules = {
   account: [
@@ -11,17 +26,95 @@ const rules = {
       message: "请输入用户名",
     },
   ],
+  password: [
+    {
+      required: true,
+      message: "请输入密码",
+    },
+  ],
+  checkCode: [
+    {
+      required: true,
+      message: "请输入验证码",
+    },
+  ],
 };
-
+//初始化登录界面获取cookie
+const init = () => {
+  const loginInfo = VueCookies.get("loginInfo");
+  if (!loginInfo) {
+    return;
+  }
+  Object.assign(formData);
+};
+init();
 const login = () => {
-  formDataRef.value.validate(async (valid) => {
-    if (!valid) {
-      return;
-    }
-    let result=await proxy.Request({
+  //简易验证登录功能
+  if (
+    formData.account === "admin" &&
+    formData.password === "123" &&
+    formData.checkCode === api.checkCode
+  ) {
+    proxy.message.success("登录成功！");
+    setTimeout(() => {
+      router.push("/home");
+    }, 1500);
+  } else if (
+    formData.account !== "admin" &&
+    formData.password === "123" &&
+    formData.checkCode === api.checkCode
+  ) {
+    proxy.message.error("账号错误");
+  } else if (
+    formData.account === "admin" &&
+    formData.password !== "123" &&
+    formData.checkCode === api.checkCode
+  ) {
+    proxy.message.error("密码错误");
+  } else if (
+    formData.account !== "admin" &&
+    formData.password === "123" &&
+    formData.checkCod !== api.checkCode
+  ) {
+    proxy.message.error("验证码错误");
+  }
 
-    })
-  });
+  /* formDataRef.value.validate(async (valid) => {
+     if (!valid) {
+       return;
+     }
+     let cookieLoginInfo = VueCookies.get("loginInfo")
+     let cookiePassworld = cookieLoginInfo == null ? null : cookieLoginInfo.password
+     if (formData.password !== cookiePassworld) {
+       formData.password = md5(formData.password)
+     }
+     let params = {
+       account: formData.account,
+       password: md5(formData.password),
+       checkCode: formData.checkCode
+     }
+     let result = await proxy.Request({
+       url: "localhos:5173",
+       params: params,
+       errorCallback: () => {
+         changeCheckCode();
+       }
+     })
+     /!*proxy.message.success("登录成功！");
+ 
+     setTimeout(()=>{
+       router.push("/home");
+     },1500);*!/
+     const loginInfo = {
+       account: params.account,
+       password: md5(params.password),
+       rememberMe: formData.rememberMe
+     };
+     VueCookies.set("usrInfo", loginInfo, 0);
+     if (formData.rememberMe) {
+       VueCookies.set("loginInfo", loginInfo, "7d")
+     }
+   });*/
 };
 </script>
 
@@ -29,45 +122,39 @@ const login = () => {
   <div class="login-body">
     <div class="login-panel">
       <div class="login-title">用户登录</div>
-      <el-form :model="formData"
-               :rules="rules"
-               ref="formDataRef">
+      <el-form :model="formData" :rules="rules" ref="formDataRef">
         <el-form-item prop="account">
-          <el-input placeholder="请输入账号"
-                    v-model="formData.account">
+          <el-input placeholder="请输入账号" v-model="formData.account">
             <template #prefix>
               <span class="iconfont icon-zhanghao"></span>
             </template>
           </el-input>
         </el-form-item>
         <el-form-item prop="password">
-          <el-input placeholder="请输入密码"
-                    v-model="formData.password">
+          <el-input placeholder="请输入密码" v-model="formData.password">
             <template #prefix>
               <span class="iconfont icon-password"></span>
             </template>
           </el-input>
         </el-form-item>
-        <el-form-item prop="checkcode">
+        <el-form-item prop="checkCode">
           <div class="check-code-panel">
             <el-input
               placeholder="请输入验证码"
-              v-model="formData.checkcode"
+              v-model="formData.checkCode"
               class="input-panel"
+              @keyup.enter.native="login"
             />
             <img src="../assets/login-checkCode.jpg" class="check-code" />
           </div>
         </el-form-item>
         <el-form-item label="">
-          <el-checkbox v-model="formData.rememberMe"
-                       :label="true">
+          <el-checkbox v-model="formData.rememberMe" :label="true">
             记住我
           </el-checkbox>
         </el-form-item>
         <el-form-item label="">
-          <el-button type="primary"
-                     :style="{ width: '100%' }"
-                     @click="login"
+          <el-button type="primary" :style="{ width: '100%' }" @click="login"
             >登录
           </el-button>
         </el-form-item>
