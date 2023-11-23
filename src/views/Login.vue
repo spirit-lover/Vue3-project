@@ -2,10 +2,10 @@
 import { getCurrentInstance, reactive, ref } from "vue";
 import md5 from "js-md5";
 import VueCookies from "vue-cookies";
-import router from "@/router/index.js";
+import { useRouter } from "vue-router";
 
 const { proxy } = getCurrentInstance();
-//const router=useRouter();
+const router = useRouter();
 const formData = reactive({});
 const api = {
   checkCode: "wqzae",
@@ -100,7 +100,7 @@ const login = () => {
          changeCheckCode();
        }
      })
-     /!*proxy.message.success("登录成功！");
+     /*proxy.message.success("登录成功！");
  
      setTimeout(()=>{
        router.push("/home");

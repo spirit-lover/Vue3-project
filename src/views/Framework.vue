@@ -1,6 +1,10 @@
 <script setup>
-import { ref } from "vue";
+import { ref, watch } from "vue";
+import VueCookies from "vue-cookies";
+import { useRouter, useRoute } from "vue-router";
 
+const router = useRouter();
+const route = useRoute();
 const menuList = ref([
   {
     title: "博客",
@@ -61,23 +65,71 @@ const menuList = ref([
   },
 ]);
 
-const openClose=(index)=>{
-  const open=menuList.value[index].open;
-  menuList.value[index].open=!open;
-}
+const openClose = (index) => {
+  const open = menuList.value[index].open;
+  menuList.value[index].open = !open;
+};
+
+const userInfo = ref({});
+const init = () => {
+  userInfo.value = {
+    userid: 10000,
+    nickName: "傻子",
+    avatar: "../src/assets/login-bg.png",
+    roleType: 1,
+  };
+  console.log(userInfo.value);
+  //正常从cookie获取用户信息
+  //userInfo.value=VueCookies.get("userinfo")
+};
+init();
+
+const activePath = ref(null);
+watch(
+  route,
+  (newVal, oldVal) => {
+    console.log(newVal, oldVal);
+    activePath.value = newVal.path;
+  },
+  { immediate: true, deep: true },
+);
 </script>
 
 <template>
   <div class="common-layout">
     <el-container>
-      <el-header class="header">Header</el-header>
+      <el-header class="header">
+        <div class="logo">EasyBlog</div>
+        <div class="user-info">
+          <span>欢迎回来，</span>
+          <el-dropdown>
+            <span class="nick-name">
+              {{ userInfo.nickName }}
+              <span class="iconfont icon-close"></span>
+            </span>
+
+            <template #dropdown>
+              <el-dropdown-menu>
+                <el-dropdown-item>个人信息</el-dropdown-item>
+                <el-dropdown-item>退出</el-dropdown-item>
+              </el-dropdown-menu>
+            </template>
+          </el-dropdown>
+          <div class="avatar">
+            <img
+              :src="userInfo.avatar"
+              style="width: 50px; border-radius: 25px"
+            />
+          </div>
+        </div>
+      </el-header>
       <el-container class="container">
         <el-aside width="200px" class="left-aside">
           <div>
             <el-button class="post-btn">发布</el-button>
           </div>
           <ul class="menu-panel">
-            <li v-for="(menu,index) in menuList">
+            <li v-for="(menu, index) in menuList">
               <span class="menu-title-p" @click="openClose(index)">
                 <span :class="['iconfont', menu.icon]"></span>
                 <span class="menu-title">{{ menu.title }}</span>
@@ -91,13 +143,22 @@ const openClose=(index)=>{
               </span>
               <ul class="sub-menu" v-show="menu.open">
                 <li v-for="subMenu in menu.children">
-                  <span class="sub-menu-item">{{ subMenu.title }}</span>
+                  <router-link
+                    :class="[
+                      'sub-menu-item',
+                      activePath === subMenu.path ? 'activePath' : '',
+                    ]"
+                    :to="subMenu.path"
+                    >{{ subMenu.title }}
+                  </router-link>
                 </li>
               </ul>
             </li>
           </ul>
         </el-aside>
-        <el-main class="right-main">Main</el-main>
+        <el-main class="right-main">
+          <router-view></router-view>
+        </el-main>
       </el-container>
     </el-container>
   </div>
@@ -107,6 +168,31 @@ const openClose=(index)=>{
 .common-layout {
   .header {
     border-bottom: 1px solid #ddd;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    .logo {
+      font-size: 30px;
+    }
+
+    .user-info {
+      display: flex;
+      align-items: center;
+
+      .nick-name {
+        cursor: pointer;
+        color: rgb(6, 143, 234);
+
+        .icon-close {
+          font-size: 14px;
+        }
+      }
+
+      .avatar {
+        margin-left: 10px;
+      }
+    }
   }
 
   .container {
@@ -137,6 +223,7 @@ const openClose=(index)=>{
         display: flex;
         cursor: pointer;
         line-height: 45px;
+
         .iconfont {
           font-size: 18px;
           color: #91949a;
@@ -147,24 +234,35 @@ const openClose=(index)=>{
           color: #3f4042;
           margin-left: 10px;
         }
+
         .open-close {
           width: 20px;
           font-size: 16px;
         }
       }
-      .menu-title-p:hover{
+
+      .menu-title-p:hover {
         background-color: #ddd;
       }
-      .sub-menu{
+
+      .sub-menu {
         margin-left: 23px;
         font-size: 14px;
-        .sub-menu-item{
+
+        .active {
+          background-color: #ddd;
+        }
+
+        .sub-menu-item {
           padding: 0 10px;
           display: block;
           cursor: pointer;
           line-height: 40px;
+          text-decoration: none;
+          color: #3f4042;
         }
-        .sub-menu-item:hover{
+
+        .sub-menu-item:hover {
           background-color: #ddd;
         }
       }
@@ -172,7 +270,6 @@ const openClose=(index)=>{
 
     .right-main {
       background: #fff;
-
     }
   }
 }
