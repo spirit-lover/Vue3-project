@@ -11,6 +11,7 @@ const routes = [
     name: "框架页",
     path: "/home",
     component: () => import("../views/Framework.vue"),
+    redirect: "/blog/list",
     children: [
       {
         name: "博客管理",

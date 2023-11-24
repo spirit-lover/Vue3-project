@@ -12,12 +12,14 @@
     "axios": "^1.6.2",
     "element-plus": "^2.4.2",
     "js-md5": "^0.8.3",
+    "table-form-list": "^2.0.0",
     "vue": "^3.3.4",
     "vue-cookies": "^1.8.3",
     "vue-router": "^4.2.5"
   },
   "devDependencies": {
     "@vitejs/plugin-vue": "^4.2.3",
+    "sass": "^1.69.5",
     "vite": "^4.4.5"
   }
 }

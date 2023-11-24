@@ -59,26 +59,7 @@ const login = () => {
     setTimeout(() => {
       router.push("/home");
     }, 1500);
-  } else if (
-    formData.account !== "admin" &&
-    formData.password === "123" &&
-    formData.checkCode === api.checkCode
-  ) {
-    proxy.message.error("账号错误");
-  } else if (
-    formData.account === "admin" &&
-    formData.password !== "123" &&
-    formData.checkCode === api.checkCode
-  ) {
-    proxy.message.error("密码错误");
-  } else if (
-    formData.account !== "admin" &&
-    formData.password === "123" &&
-    formData.checkCod !== api.checkCode
-  ) {
-    proxy.message.error("验证码错误");
   }
-
   /* formDataRef.value.validate(async (valid) => {
      if (!valid) {
        return;
