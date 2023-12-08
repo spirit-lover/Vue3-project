@@ -8,6 +8,8 @@ import '@/assets/icon/iconfont.css'
 import Request from "@/utils/Request.js";
 import message from "@/utils/Message.js";
 import Table from "@/components/Table.vue";
+import Cover from "@/components/Cover.vue";
+import Dialog from "@/components/Dialog.vue";
 import TableFormList from "table-form-list";
 import "table-form-list/dist/theme-chalk/index.css";
 
@@ -16,6 +18,10 @@ app.use(router);
 app.use(ElementPlus);
 app.use(TableFormList);
 app.config.globalProperties.Request=Request
-app.config.globalProperties.message=message
+app.config.globalProperties.message = message;
+
 app.component("Table", Table);
+app.component("Cover", Cover);
+app.component("Dialog", Dialog);
+
 app.mount('#app')

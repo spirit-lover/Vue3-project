@@ -78,7 +78,6 @@ const init = () => {
     avatar: "../src/assets/login-bg.png",
     roleType: 1,
   };
-  console.log(userInfo.value);
   //正常从cookie获取用户信息
   //userInfo.value=VueCookies.get("userinfo")
 };
@@ -88,7 +87,6 @@ const activePath = ref(null);
 watch(
   route,
   (newVal, oldVal) => {
-    console.log(newVal, oldVal);
     activePath.value = newVal.path;
   },
   { immediate: true, deep: true },
