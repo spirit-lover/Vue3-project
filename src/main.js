@@ -10,6 +10,7 @@ import message from "@/utils/Message.js";
 import Table from "@/components/Table.vue";
 import Cover from "@/components/Cover.vue";
 import Dialog from "@/components/Dialog.vue";
+import CoverUpload from "@/components/CoverUpload.vue";
 import TableFormList from "table-form-list";
 import "table-form-list/dist/theme-chalk/index.css";
 
@@ -23,5 +24,6 @@ app.config.globalProperties.message = message;
 app.component("Table", Table);
 app.component("Cover", Cover);
 app.component("Dialog", Dialog);
+app.component("CoverUpload", CoverUpload);
 
 app.mount('#app')

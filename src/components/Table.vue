@@ -12,6 +12,7 @@
       style="width: 100%"
       v-bind="options"
     >
+      <!--      序号-->
       <el-table-column
         v-if="options && options.index"
         align="center"
@@ -22,20 +23,38 @@
 
       <!-- 表格数据 -->
       <template v-for="(column, index) in columns">
-        <el-table-column
-          :key="index"
-          v-if="!column.isShow || (column.isShow && column.isShow())"
-          :prop="column.prop"
-          :align="column.align"
-          :label="column.label"
-          :width="column.width"
-          show-overflow-tooltip
-          v-bind="column.props"
-        >
-          <!--          <template slot-scope="index,row">
-                      <slot name="cover" :data="row" :index="index" />
-                    </template>-->
-        </el-table-column>
+        <!--若有插槽则用此列-->
+        <template v-if="column.scopedSlots">
+          <el-table-column
+            :key="index"
+            :align="column.align || 'left'"
+            :label="column.label"
+            :prop="column.prop"
+            :width="column.width"
+          >
+            <template #default="scope">
+              <slot
+                :index="scope.index"
+                :name="column.scopedSlots"
+                :row="scope.row"
+              >
+              </slot>
+            </template>
+          </el-table-column>
+        </template>
+        <!--若无插槽则用此列-->
+        <template v-else>
+          <el-table-column
+            :key="index"
+            :align="column.align || 'left'"
+            :label="column.label"
+            :prop="column.prop"
+            :width="column.width"
+            show-overflow-tooltip
+            v-bind="column.props"
+          >
+          </el-table-column>
+        </template>
       </template>
     </el-table>
     <br />

@@ -16,3 +16,10 @@ CSS3中calc()函数可以进行一些简单数学运算
 4. background-position 为每一个背景图片设置初始位置
 5. display: flex;弹性布局
 6. cursor 在鼠标指针悬停在元素上时显示相应样式
+
+# 12.26
+
+1. 完善封装Table组件的封页列以及操作列的插槽
+2. 完善Dialog组件(仍存在一个bug：点击新增分类弹窗的右上角X后，并未随之更改props.show属性。导致下次点击新增时show仍为false。)
+3. 完善Cover组件
+4. 新增CoverUpload组件
