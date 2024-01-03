@@ -13,6 +13,11 @@ body{
     align-items: center;
 }
 
+.not-allow {
+    cursor: not-allowed;
+    color: #ddd;
+    text-decoration: none;
+}
 a.a-link {
     color: rgb(53, 118, 237);
     text-decoration: none;

@@ -1,7 +1,9 @@
 <script setup>
 import { getCurrentInstance } from "vue";
 
-const { proxy } = getCurrentInstance();
+// const { proxy } = getCurrentInstance();
+const cns = getCurrentInstance().appContext.config.globalProperties;
+
 const props = defineProps({
   modelValue: {
     type: String,
@@ -12,8 +14,7 @@ const props = defineProps({
 //自定义上次请求
 const emit = defineEmits();
 const uploadImage = async (file) => {
-  console.log(file);
-  let result = await proxy.Request({
+  let result = await cns.Request({
     url: "",
     dataType: "file",
     params: {
