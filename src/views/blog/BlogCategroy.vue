@@ -36,7 +36,7 @@ export default {
       },
     ];
     // 数据
-    const dataSource = [
+    let dataSource = [
       {
         key: "1",
         cover: "/src/assets/login-bg.png",
@@ -67,6 +67,16 @@ export default {
       currentPage: 1,
       pageSize: 10,
     };
+    const loadDateList = async () => {
+      //   let result=await cns.Request({
+      //     url:''
+      //   })
+      // if(!result){
+      //   return
+      // }
+      // dataSource=result.data
+    };
+
     //新增，修改
     const dialogConfig = reactive({
       show: false,
@@ -169,7 +179,6 @@ export default {
       cns.message.success("重新排序成功");
       // loadDateList();
     };
-    console.log(dataSource);
     return {
       columns,
       dataSource,
