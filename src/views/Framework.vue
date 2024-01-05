@@ -89,7 +89,7 @@ watch(
   (newVal, oldVal) => {
     activePath.value = newVal.path;
   },
-  { immediate: true, deep: true },
+  { immediate: true, deep: true }
 );
 </script>
 
@@ -267,7 +267,9 @@ watch(
     }
 
     .right-main {
+      position: relative;
       background: #fff;
+      padding: 20px 10px 10px 10px;
     }
   }
 }

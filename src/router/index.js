@@ -16,7 +16,12 @@ const routes = [
       {
         name: "博客管理",
         path: "/blog/list",
-        component: () => import("../views/blog/Blog.vue"),
+        component: () => import("../views/blog/BlogList.vue"),
+      },
+      {
+        name: "test",
+        path: "/blog/test",
+        component: () => import("../views/blog/test.vue"),
       },
       {
         name: "分类管理",

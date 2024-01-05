@@ -1,15 +1,11 @@
 <script setup>
-const props = defineProps({
+let props = defineProps({
   title: {
     type: String,
   },
   show: {
     type: Boolean,
-    default: true,
-  },
-  showClose: {
-    type: Boolean,
-    default: true,
+    default: false,
   },
   showCancel: {
     type: Boolean,
@@ -27,7 +23,8 @@ const props = defineProps({
     type: Array,
   },
 });
-const emit = defineEmits();
+
+const emit = defineEmits(["close"]);
 const close = () => {
   emit("close");
 };
@@ -37,9 +34,7 @@ const close = () => {
   <div>
     <el-dialog
       v-model="props.show"
-      :close-on-click-modal="false"
       :draggable="true"
-      :show-close="showClose"
       :showCancel="showCancel"
       :title="title"
       :top="top"

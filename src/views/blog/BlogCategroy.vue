@@ -105,10 +105,11 @@ export default {
     const formDataRef = ref();
     const showEdit = (type, data) => {
       dialogConfig.show = true;
+
       //等待dialog完全加载完再执行下面操作(update操作获取数据)
-      nextTick(() => {
-        formDataRef.value.resetFields();
-      });
+      // nextTick(() => {
+      //   formDataRef.value.resetFields();
+      // });
       if (type === "add") {
         dialogConfig.title = "新增分类";
       } else if (type === "update") {

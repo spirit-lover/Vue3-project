@@ -1,5 +1,6 @@
 <script setup>
 import { getCurrentInstance, reactive, ref } from "vue";
+import Window from "@/components/Window.vue";
 
 const cns = getCurrentInstance().appContext.config.globalProperties;
 
@@ -40,7 +41,7 @@ const loadCategoryList = async () => {
 };
 loadCategoryList();
 //列表
-const tableData = ref({});
+const tableData = reactive({});
 const tableOption = {
   exHeight: 10,
 };
@@ -139,7 +140,30 @@ const loadDateList = async () => {
   if (!result) {
     return;
   }
-  dataSource.value = result.data;
+  Object.assign(dataSource, result.data);
+};
+//新增，修改
+const windowConfig = ref({
+  show: false,
+  title: "我是标题",
+  buttons: [
+    {
+      type: "danger",
+      text: "确定",
+      click: (e) => {
+        console.log("eee");
+      },
+    },
+  ],
+});
+
+const closeWindow = () => {
+  windowConfig.value.show = false;
+  // loadDateList();
+};
+
+const showEdit = (type, data) => {
+  windowConfig.value.show = true;
 };
 </script>
 
@@ -199,7 +223,9 @@ const loadDateList = async () => {
           </el-col>
           <el-col :span="5" :style="{ paddingLeft: '20px' }">
             <el-button type="danger" @click="loadDateList">搜索</el-button>
-            <el-button type="danger">新增博客</el-button>
+            <el-button type="danger" @click="showEdit('add')"
+              >新增博客
+            </el-button>
           </el-col>
         </el-row>
       </el-form>
@@ -261,6 +287,13 @@ const loadDateList = async () => {
           </div>
         </template>
       </Table>
+      <window
+        :buttons="windowConfig.buttons"
+        :show="windowConfig.show"
+        @click="closeWindow"
+      >
+        test
+      </window>
     </div>
   </div>
 </template>
