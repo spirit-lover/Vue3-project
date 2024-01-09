@@ -201,7 +201,7 @@ export default {
 </script>
 <template>
   <div>
-    <el-button type="danger" @click="showEdit('add')">新增分类</el-button>
+    <el-button type="danger" @click="showEdit('add')">新增专题</el-button>
   </div>
   <Table
     :options="options"

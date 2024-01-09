@@ -1,5 +1,5 @@
 <script setup>
-import { getCurrentInstance, reactive, ref } from "vue";
+import { getCurrentInstance, nextTick, reactive, ref } from "vue";
 import Window from "@/components/Window.vue";
 
 const cns = getCurrentInstance().appContext.config.globalProperties;
@@ -126,6 +126,19 @@ const columns = [
     scopedSlots: "op",
   },
 ];
+const blogFormRef = ref();
+const init = (type, data) => {
+  //  startTimer();
+  //windowConfig.show = true;
+  nextTick(() => {
+    //   blogFormRef.value = resetFields();
+    blogFormRef.value = {};
+    if (type === "add") {
+    } else {
+    }
+  });
+};
+defineExpose(init());
 const loadDateList = async () => {
   let params = {
     pageNo: tableData.pageNo,
@@ -157,9 +170,11 @@ const windowConfig = ref({
   ],
 });
 
+const emit = defineEmits();
 const closeWindow = () => {
   windowConfig.value.show = false;
   // loadDateList();
+  emit("callback");
 };
 
 const showEdit = (type, data) => {

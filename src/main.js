@@ -17,22 +17,22 @@ import Window from "@/components/Window.vue";
 import TableFormList from "table-form-list";
 import "table-form-list/dist/theme-chalk/index.css";
 
-// import VueMarkdownEditor from '@kangc/v-md-editor';
-// import '@kangc/v-md-editor/lib/style/base-editor.css';
-// import vuepressTheme from '@kangc/v-md-editor/lib/theme/vuepress.js';
-// import '@kangc/v-md-editor/lib/theme/style/vuepress.css';
-// import Prism from 'prismjs';
-//
-// VueMarkdownEditor.use(vuepressTheme, {
-//     Prism,
-// });
+import VueMarkdownEditor from "@kangc/v-md-editor";
+import "@kangc/v-md-editor/lib/style/base-editor.css";
+import vuepressTheme from "@kangc/v-md-editor/lib/theme/vuepress.js";
+import "@kangc/v-md-editor/lib/theme/style/vuepress.css";
+import Prism from "prismjs";
+
+VueMarkdownEditor.use(vuepressTheme, {
+  Prism,
+});
 
 const app= createApp(App);
 app.use(router);
 app.use(ElementPlus);
 app.use(TableFormList);
 
-// app.use(VueMarkdownEditor);
+app.use(VueMarkdownEditor);
 
 app.component("Table", Table);
 app.component("Cover", Cover);

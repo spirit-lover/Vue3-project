@@ -9,7 +9,7 @@ const routes = [
   },
   {
     name: "框架页",
-    path: "/home",
+    path: "/",
     component: () => import("../views/Framework.vue"),
     redirect: "/blog/list",
     children: [
@@ -27,6 +27,11 @@ const routes = [
         name: "分类管理",
         path: "/blog/category",
         component: () => import("../views/blog/BlogCategroy.vue"),
+      },
+      {
+        name: "专题管理",
+        path: "/special/list",
+        component: () => import("../views/special/specialList.vue"),
       },
     ],
   },
